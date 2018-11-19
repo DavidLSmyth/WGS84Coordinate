@@ -3,6 +3,8 @@
  */
 package com.ROCSAFE.maven.gpsutilities;
 
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 
 /**
@@ -11,11 +13,29 @@ import junit.framework.TestCase;
  */
 public class WGS84CoordinateTest extends TestCase {
 
+	WGS84Coordinate p1;
+	WGS84Coordinate p2;
+	WGS84Coordinate p3;
+	WGS84Coordinate p4;
+	WGS84Coordinate p5;
+	WGS84Coordinate p6;
+	WGS84Coordinate p7;
+	
+	BigDecimal p1Lat;
+	BigDecimal p1Lng;
+	BigDecimal p1Alt;
+	
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	protected void setUp() throws Exception {
 		super.setUp();
+		p1Lat = new BigDecimal(53.2);
+		p1Lng = new BigDecimal(-9.6);
+		p1Alt = new BigDecimal(10);
+		p1 = new WGS84Coordinate(p1Lat, p1Lng, p1Alt);
+		p2 = new WGS84Coordinate(53.2, -9.6);
+		
 	}
 
 	/* (non-Javadoc)
@@ -29,42 +49,59 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLat()}.
 	 */
 	public void testGetLat() {
-		fail("Not yet implemented");
+		assertEquals(p1.getLat(), p1Lat);
+		assertEquals(p2.getLat(), p1Lat);
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#setLat(java.math.BigDecimal)}.
+	 * @throws Exception 
 	 */
-	public void testSetLat() {
-		fail("Not yet implemented");
+	public void testSetLat() throws Exception {
+		p1.setLat(new BigDecimal(0.0));
+		assertEquals(p1.getLat(), new BigDecimal(0.0));
+		p1.setLat(new BigDecimal(-8.1234));
+		assertEquals(p1.getLat(), new BigDecimal(-8.1234));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLng()}.
+	 * @throws Exception 
 	 */
 	public void testGetLng() {
-		fail("Not yet implemented");
+		assertEquals(p1.getLng(), p1Lng);
+		assertEquals(p2.getLng(), p1Lng);
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#setLng(java.math.BigDecimal)}.
+	 * @throws Exception 
 	 */
-	public void testSetLng() {
-		fail("Not yet implemented");
+	public void testSetLng() throws Exception {
+		p1.setLng(new BigDecimal(0.0));
+		assertEquals(p1.getLng(), new BigDecimal(0.0));
+		p1.setLng(new BigDecimal(-8.1234));
+		assertEquals(p1.getLng(), new BigDecimal(-8.1234));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getAlt()}.
 	 */
 	public void testGetAlt() {
-		fail("Not yet implemented");
+		assertEquals(p1Alt, p1.getAlt());
+		assertEquals(new BigDecimal(0.0), p2.getAlt());
+		//assertEquals(p2.getAlt(),  );
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#setAlt(java.math.BigDecimal)}.
+	 * @throws Exception 
 	 */
-	public void testSetAltBigDecimal() {
-		fail("Not yet implemented");
+	public void testSetAltBigDecimal() throws Exception {
+		p1.setAlt(new BigDecimal(5.1));
+		assertEquals(p1.getLng(), new BigDecimal(5.1));
+		p1.setAlt(new BigDecimal(100.02365));
+		assertEquals(p1.getLng(), new BigDecimal(100.02365));
 	}
 
 	/**

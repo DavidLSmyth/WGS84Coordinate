@@ -60,16 +60,21 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	}
 		
 	public WGS84Coordinate(double lat, double lng) throws Exception {
-		//default altitude of 100
-		this(lat,lng,100.0);
+		//default altitude of 0
+		this(lat,lng,0.0);
 	}
 	public WGS84Coordinate(BigDecimal lat, BigDecimal lng) throws Exception {
-		this(lat,lng, new BigDecimal(100.0));
+		this(lat,lng, new BigDecimal(0.0));
 	}
 	
 	
 	public WGS84Coordinate(Double lat, Double lng, Double alt) throws Exception {
 			this(new BigDecimal(lat), new BigDecimal(lng), new BigDecimal(alt));
+	}
+	
+	//convert Integer to BigDecimal
+	public WGS84Coordinate(Integer lat, Integer lng, Integer alt) throws Exception {
+		this(new BigDecimal(lat), new BigDecimal(lng), new BigDecimal(alt));
 	}
 	
 	public WGS84Coordinate(BigDecimal lat, BigDecimal lng, BigDecimal alt) throws Exception {
@@ -182,7 +187,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 			return true;
 		}
 		else {
-			return(lowerAltBound.compareTo(alt2)<0 && alt2.compareTo(upperAltBound)<0);
+			return(lowerAltBound.compareTo(alt2)<=0 && alt2.compareTo(upperAltBound)<0);
 		}
 	}
 	public static boolean verifyAlt(Double alt2) {
@@ -191,7 +196,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 			return true;
 		}
 		else {
-			return(lowerAltBound.compareTo(new BigDecimal(alt2))<0 && new BigDecimal(alt2).compareTo(upperAltBound)<0);
+			return(lowerAltBound.compareTo(new BigDecimal(alt2))<=0 && new BigDecimal(alt2).compareTo(upperAltBound)<0);
 		}
 	}
 	
