@@ -10,7 +10,6 @@ import junit.framework.TestCase;
  *
  */
 public class WGS84CoordinateUtilsTest extends TestCase {
-
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
