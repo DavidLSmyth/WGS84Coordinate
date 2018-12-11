@@ -169,6 +169,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	public static boolean verifyLat(BigDecimal lat2) {
 		return(LOWER_LAT_BOUND.compareTo(lat2)<0 && lat2.compareTo(UPPER_LAT_BOUND)<0);
 	}
+	
 	public static boolean verifyLat(Double lat2) {
 		return(LOWER_LAT_BOUND.compareTo(new BigDecimal(lat2))<0 && new BigDecimal(lat2).compareTo(UPPER_LAT_BOUND)<0);
 	}

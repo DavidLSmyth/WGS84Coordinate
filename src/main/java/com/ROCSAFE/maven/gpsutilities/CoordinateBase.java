@@ -39,7 +39,7 @@ public abstract class CoordinateBase {
 	}
 
 	public BigDecimal getAlt() {
-		return alt;
+		return alt; 
 	}
 
 	public void setAlt(BigDecimal alt) throws Exception{
