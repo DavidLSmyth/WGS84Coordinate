@@ -85,7 +85,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	}
 	
 	
-	
+	//fix this to allow a negligible tolerance
 	@Override
 	public boolean equals(Object other) {
 		if(other == null) return false;

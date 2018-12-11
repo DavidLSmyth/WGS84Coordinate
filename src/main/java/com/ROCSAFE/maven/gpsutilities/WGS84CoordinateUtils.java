@@ -26,6 +26,7 @@ public class WGS84CoordinateUtils {
 	public static double degToRadian(double degrees) {
 		return Math.toRadians(degrees);
 	}
+	
 	public static double radianToDeg(double radians) {
 		return Math.toDegrees(radians);
 	}
