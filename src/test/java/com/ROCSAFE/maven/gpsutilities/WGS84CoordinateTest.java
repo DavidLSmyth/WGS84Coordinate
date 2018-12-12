@@ -5,14 +5,17 @@ package com.ROCSAFE.maven.gpsutilities;
 
 import java.math.BigDecimal;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * @author David Smyth
  *
  */
-public class WGS84CoordinateTest extends TestCase {
-
+class WGS84CoordinateTest {
 	WGS84Coordinate p1;
 	WGS84Coordinate p2;
 	WGS84Coordinate p3;
@@ -27,8 +30,8 @@ public class WGS84CoordinateTest extends TestCase {
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp() throws Exception {
-		super.setUp();
+	@BeforeEach
+	protected void init() throws Exception {
 		p1Lat = new BigDecimal(53.2);
 		p1Lng = new BigDecimal(-9.6);
 		p1Alt = new BigDecimal(10);
@@ -40,13 +43,14 @@ public class WGS84CoordinateTest extends TestCase {
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
 	 */
+	@AfterEach
 	protected void tearDown() throws Exception {
-		super.tearDown();
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLat()}.
 	 */
+	@Test
 	public void testGetLat() {
 		assertEquals(p1.getLat(), p1Lat);
 		assertEquals(p2.getLat(), p1Lat);
@@ -56,6 +60,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#setLat(java.math.BigDecimal)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testSetLat() throws Exception {
 		p1.setLat(new BigDecimal(0.0));
 		assertEquals(p1.getLat(), new BigDecimal(0.0));
@@ -67,6 +72,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLng()}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testGetLng() {
 		assertEquals(p1.getLng(), p1Lng);
 		assertEquals(p2.getLng(), p1Lng);
@@ -76,6 +82,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#setLng(java.math.BigDecimal)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testSetLng() throws Exception {
 		p1.setLng(new BigDecimal(0.0));
 		assertEquals(p1.getLng(), new BigDecimal(0.0));
@@ -86,6 +93,7 @@ public class WGS84CoordinateTest extends TestCase {
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getAlt()}.
 	 */
+	@Test
 	public void testGetAlt() {
 		assertEquals(p1Alt, p1.getAlt());
 		assertEquals(new BigDecimal(0.0), p2.getAlt());
@@ -96,6 +104,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#setAlt(java.math.BigDecimal)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testSetAltBigDecimal() throws Exception {
 		p1.setAlt(new BigDecimal(5.1));
 		assertEquals(p1.getAlt(), new BigDecimal(5.1));
@@ -106,6 +115,7 @@ public class WGS84CoordinateTest extends TestCase {
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#toString()}.
 	 */
+	@Test
 	public void testToString() {
 		assertEquals("" + p1.getLat() + ", " + p1.getLng() + ", " + p1.getAlt() + "", p1.toString());
 	}
@@ -159,6 +169,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#equals(java.lang.Object)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testEqualsObject() throws Exception {
 		assertTrue(p1.equals(new WGS84Coordinate(p1.getLat(), p1.getLng(), p1.getAlt())));
 		WGS84Coordinate p1Copy = new WGS84Coordinate();
@@ -181,6 +192,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#clone()}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testClone() throws Exception {
 		WGS84Coordinate p1Clone = p1.clone();
 		assertEquals(p1Clone, p1);
@@ -195,8 +207,9 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLatMetresToOther(com.ROCSAFE.maven.gpsutilities.WGS84Coordinate)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testGetLatMetresToOther() throws Exception {
-		assertEquals("Two points should be equal in distance", 0, p2.getLatMetresToOther(p1), 0.5);
+		assertEquals(0, p2.getLatMetresToOther(p1), 0.5);
 		//confirm test as described here: https://www.movable-type.co.uk/scripts/latlong.html
 		WGS84Coordinate p = new WGS84Coordinate(50.06639, 5.714722);
 		WGS84Coordinate q = new WGS84Coordinate(58.64389, 5.714722);
@@ -208,6 +221,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLngMetresToOther(com.ROCSAFE.maven.gpsutilities.WGS84Coordinate)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testGetLngMetresToOther() throws Exception {
 		//confirm test as described here: https://www.movable-type.co.uk/scripts/latlong.html
 		WGS84Coordinate p = new WGS84Coordinate(50.06639, 5.714722);
@@ -228,6 +242,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getMetresToOther(com.ROCSAFE.maven.gpsutilities.WGS84Coordinate)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testGetMetresToOtherWGS84Coordinate() throws Exception {
 		//check tests as described here: https://www.movable-type.co.uk/scripts/latlong-vincenty.html
 		WGS84Coordinate p = new WGS84Coordinate(50.06639, 5.714722);
@@ -311,6 +326,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#add(com.ROCSAFE.maven.gpsutilities.WGS84Coordinate)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testAddWGS84Coordinate() throws Exception {
 		WGS84Coordinate p = new WGS84Coordinate(10, 2);
 		WGS84Coordinate q = new WGS84Coordinate(10.5, 1.3);
@@ -321,6 +337,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#multiply(java.math.BigDecimal)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testMultiplyBigDecimal() throws Exception {
 		WGS84Coordinate p = new WGS84Coordinate(10, 2);
 		assertEquals(p.multiply(2), new WGS84Coordinate(p.getLat().multiply(new BigDecimal(2.0)), p.getLng().multiply(new BigDecimal(2.0))));
@@ -338,6 +355,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#divide(int)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testDivide() throws Exception {
 		WGS84Coordinate p = new WGS84Coordinate(10, 2);
 		assertEquals(p.divide(2), new WGS84Coordinate(p.getLat().divide(new BigDecimal(2.0)), p.getLng().divide(new BigDecimal(2.0))));
@@ -347,6 +365,7 @@ public class WGS84CoordinateTest extends TestCase {
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#subtract(com.ROCSAFE.maven.gpsutilities.WGS84Coordinate)}.
 	 * @throws Exception 
 	 */
+	@Test
 	public void testSubtractWGS84Coordinate() throws Exception {
 		WGS84Coordinate p = new WGS84Coordinate(10, 2);
 		WGS84Coordinate q = new WGS84Coordinate(10.5, 1.3);
@@ -356,43 +375,49 @@ public class WGS84CoordinateTest extends TestCase {
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLowerLatBound()}.
 	 */
+	@Test
 	public void testGetLowerLatBound() {
-		assertEquals(p1.getLowerLatBound(), new BigDecimal(-90));
+		assertEquals(WGS84Coordinate.getLowerLatBound(), new BigDecimal(-90));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getUpperLatBound()}.
 	 */
+	@Test
 	public void testGetUpperLatBound() {
-		assertEquals(p1.getUpperLatBound(), new BigDecimal(90));
+		assertEquals(WGS84Coordinate.getUpperLatBound(), new BigDecimal(90));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLowerLngBound()}.
 	 */
+	@Test
 	public void testGetLowerLngBound() {
-		assertEquals(p1.getLowerLngBound(), new BigDecimal(-180));
+		assertEquals(WGS84Coordinate.getLowerLngBound(), new BigDecimal(-180));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getUpperLngBound()}.
 	 */
+	@Test
 	public void testGetUpperLngBound() {
-		assertEquals(p1.getUpperLngBound(), new BigDecimal(180));
+		assertEquals(WGS84Coordinate.getUpperLngBound(), new BigDecimal(180));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getLowerAltBound()}.
 	 */
+	@Test
 	public void testGetLowerAltBound() {
-		assertEquals(p1.getLowerAltBound(), new BigDecimal(0));
+		assertEquals(WGS84Coordinate.getLowerAltBound(), new BigDecimal(0));
 	}
 
 	/**
 	 * Test method for {@link com.ROCSAFE.maven.gpsutilities.WGS84Coordinate#getUpperAltBound()}.
 	 */
+	@Test
 	public void testGetUpperAltBound() {
-		assertEquals(p1.getUpperAltBound(), new BigDecimal(20000));
+		assertEquals(WGS84Coordinate.getUpperAltBound(), new BigDecimal(20000));
 	}
 
 	/**

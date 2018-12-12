@@ -1,0 +1,4 @@
+com\ROCSAFE\maven\gpsutilities\CoordinateInterface.class
+com\ROCSAFE\maven\gpsutilities\WGS84CoordinateUtils.class
+com\ROCSAFE\maven\gpsutilities\CoordinateBase.class
+com\ROCSAFE\maven\gpsutilities\WGS84Coordinate.class
