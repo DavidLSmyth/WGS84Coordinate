@@ -189,6 +189,23 @@ public class WGS84CoordinateUtils {
 	
 	/**
 	 * 
+	 * @param latFrom
+	 * @param longFrom
+	 * @param latTo
+	 * @param longTo
+	 * @return The distance in metres from WGS84 coordinate 'from' to WGS84 coordinate 'to' 
+	 * @throws Exception
+	 */
+	public static double getDistanceMetresBetweenWGS84(double latFrom, 
+			double longFrom, 
+			double latTo, 
+			double longTo) throws Exception {
+		//returns the length of the geodesic from coordinate from to coordinate to
+		return vincentyGeodesicInverse(new WGS84Coordinate(latFrom, longFrom), new WGS84Coordinate(latTo, longTo));
+	}
+	
+	/**
+	 * 
 	 * @param from
 	 * @param to
 	 * @return The latitudinal distance in metres from WGS84 coordinate 'from' to WGS84 coordinate 'to' 

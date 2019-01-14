@@ -38,13 +38,7 @@ import java.math.MathContext;
  * 11/06/2018
  * Cannot figure out how to convert from UTM to WGS84 back to UTM without loss, come back to it!
 */
-public class WGS84Coordinate extends CoordinateBase implements CoordinateInterface{
-	
-	//convert everything to BigDecimal to ensure that operations give 
-	//accurate results
-	BigDecimal lat;
-	BigDecimal lng;
-	BigDecimal alt;
+public class WGS84Coordinate extends CoordinateBase<WGS84Coordinate>{
 	
 	public static BigDecimal LOWER_LAT_BOUND = new BigDecimal(-90);
 	public static BigDecimal UPPER_LAT_BOUND = new BigDecimal(90);
@@ -128,7 +122,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	 */
 	public WGS84Coordinate clone() {
 		try {
-			return new WGS84Coordinate(lat, lng, alt);
+			return new WGS84Coordinate(Y, X, Z);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			//do nothing; if this object has already been created safely there
@@ -139,10 +133,9 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	
 	@Override
 	public String toString() {
-		if(alt != null) return "" + lat + ", " + lng + ", " + alt + "";
-		else return "" + lat + ", " + lng + "";		
+		if(getAlt() != null) return "" + getLat() + ", " + getLng() + ", " + getAlt() + "";
+		else return "" + getLat() + ", " + getLng() + "";		
 	}
-	
 	
 	public double getLatMetresToOther(WGS84Coordinate otherCoord) throws Exception {
 		return WGS84CoordinateUtils.getDistanceMetresLatToOther(this, otherCoord);
@@ -162,9 +155,6 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 		return new Exception(type + " must lie in the range (" + lowerBound + ", " + upperBound + ")");
 	}
 	
-	public double getMetresToOther(WGS84Coordinate otherCoord) throws Exception {
-		return WGS84CoordinateUtils.getDistanceMetresBetweenWGS84(this, otherCoord);
-	}
 		
 	public static boolean verifyLat(BigDecimal lat2) {
 		return(LOWER_LAT_BOUND.compareTo(lat2)<0 && lat2.compareTo(UPPER_LAT_BOUND)<0);
@@ -212,12 +202,12 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	}
 	
 	public BigDecimal getLat() {
-		return lat;
+		return Y;
 	}
 
 	public void setLat(BigDecimal lat2) throws Exception {
 		if(verifyLat(lat2)) {
-			this.lat = lat2;
+			setY(lat2);
 		}
 		else {
 			throw throwRangeException("Latitude", LOWER_LAT_BOUND.doubleValue(), UPPER_LAT_BOUND.doubleValue());
@@ -225,12 +215,12 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	}
 
 	public BigDecimal getLng() {
-		return lng;
+		return X;
 	}
 
 	public void setLng(BigDecimal lng2) throws Exception {
 		if(verifyLng(lng2)) {
-			this.lng = lng2;
+			setX(lng2);
 		}
 		else {
 			throw throwRangeException("Longitude", LOWER_LNG_BOUND.doubleValue(), UPPER_LNG_BOUND.doubleValue());
@@ -238,12 +228,12 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	}
 
 	public BigDecimal getAlt() {
-		return alt;
+		return Z;
 	}
 
 	public void setAlt(BigDecimal alt2) throws Exception {
 		if(alt2 == null || verifyAlt(alt2)) {
-			this.alt = alt2;
+			setZ(alt2);
 		}
 		else {
 			throw throwRangeException("Altitude", lowerAltBound.doubleValue(), upperAltBound.doubleValue());
@@ -252,7 +242,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	
 	public void setAlt(Double alt2) throws Exception {
 		if(alt2 == null || verifyAlt(alt2)) {
-			this.alt = new BigDecimal(alt2);
+			setZ(new BigDecimal(alt2));
 		}
 		else {
 			throw throwRangeException("Altitude", lowerAltBound.doubleValue(), upperAltBound.doubleValue());
@@ -269,19 +259,7 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 		}
 	}
 	
-	public WGS84Coordinate add(WGS84Coordinate otherCoord) throws Exception {
-		WGS84Coordinate returnCoord;
-//		if(getAlt()!=null && otherCoord.getAlt()!=null) {
-//			returnCoord = new GPSCoordinate(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0.0));
-//			returnCoord.setAlt(getAlt().add(otherCoord.getAlt()));
-//		}
-//		else {
-			returnCoord = new WGS84Coordinate(0, 0);
-//		}
-		returnCoord.setLat(getLat().add(otherCoord.getLat()));
-		returnCoord.setLng(getLng().add(otherCoord.getLng()));
-		return returnCoord;
-	}
+
 	
 	public WGS84Coordinate multiply(BigDecimal number) throws Exception {
 		if(number.equals(BigDecimal.ZERO)) {
@@ -319,21 +297,49 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 		return returnCoord;
 	}
 
-	public WGS84Coordinate subtract(WGS84Coordinate otherCoord) throws Exception {
-		WGS84Coordinate returnCoord;
+	public WGS84Coordinate subtract(WGS84Coordinate otherCoord) {
 //		if(getAlt()!=null && otherCoord.getAlt()!=null) {
 //			returnCoord = new GPSCoordinate();
 //			returnCoord.setAlt(getAlt().subtract(otherCoord.getAlt()));
 //		}	
 //		else {
-			returnCoord = new WGS84Coordinate(0, 0);
+		try {
+			return new WGS84Coordinate(getLat().subtract(otherCoord.getLat()),
+											  getLng().subtract(otherCoord.getLng()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 //		}
-		returnCoord.setLat(getLat().subtract(otherCoord.getLat()));
-		returnCoord.setLng(getLng().subtract(otherCoord.getLng()));
+		//returnCoord.setLat(getLat().subtract(otherCoord.getLat()));
+		//returnCoord.setLng(getLng().subtract(otherCoord.getLng()));
 			
-		return returnCoord;
+		//return returnCoord;
 	}
-
+	
+	public WGS84Coordinate add(WGS84Coordinate otherCoord) {
+		try {
+			return new WGS84Coordinate(getLat().add(otherCoord.getLat()), getLng().add(otherCoord.getLng()));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}  
+		//returnCoord.setLat(getLat().add(otherCoord.getLat()));
+		//returnCoord.setLng(getLng().add(otherCoord.getLng()));
+		//return returnCoord;
+	}
+	
+	public double getMetresToOther(WGS84Coordinate otherCoord) {
+		try {
+			return WGS84CoordinateUtils.getDistanceMetresBetweenWGS84(this, otherCoord);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return (Double) null;
+		}
+	}
 	
 	public static BigDecimal getLowerLatBound() {
 		return LOWER_LAT_BOUND;
@@ -363,55 +369,43 @@ public class WGS84Coordinate extends CoordinateBase implements CoordinateInterfa
 	public static BigDecimal getUpperAltBound() {
 		return upperAltBound;
 	}
-
-	public BigDecimal getX() {
+	
+	@Override
+	public double getMetresToOtherX(WGS84Coordinate other) throws Exception {
 		// TODO Auto-generated method stub
-		return getLng();
+		return WGS84CoordinateUtils.getDistanceMetresLngToOther(this, other);
 	}
 
-	public BigDecimal getY() {
+	@Override
+	public double getMetresToOtherY(WGS84Coordinate other) throws Exception {
 		// TODO Auto-generated method stub
-		return getLat();
+		return WGS84CoordinateUtils.getDistanceMetresLatToOther(this, other);
 	}
 
-	public BigDecimal getZ() {
-		// TODO Auto-generated method stub
-		return getAlt();
-	}
-
-	public BigDecimal getMetresToOther(CoordinateInterface other) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public CoordinateInterface add(CoordinateInterface other) {
-		// TODO Auto-generated method stub
-		return this.add(other);
-	}
-
-	public CoordinateInterface addX(BigDecimal x) throws Exception {
+	@Override
+	public WGS84Coordinate addX(BigDecimal x) throws Exception {
 		// TODO Auto-generated method stub
 		return new WGS84Coordinate(getLat(), getLng().add(x), getAlt());
 	}
-			
-	public CoordinateInterface subtractY(BigDecimal y) throws Exception {
-		// TODO Auto-generated method stub
-		return new WGS84Coordinate(getLat().subtract(y), getLng(), getAlt());
-	}
-			
-	public CoordinateInterface subtractX(BigDecimal x) throws Exception {
-		// TODO Auto-generated method stub
-		return new WGS84Coordinate(getLat(), getLng().subtract(x), getAlt());
-	}
-	
-	public CoordinateInterface subtract(CoordinateInterface other) {
-		// TODO Auto-generated method stub
-		return this.add(other);
-	}
 
-	public CoordinateInterface addY(BigDecimal y) throws Exception {
+	@Override
+	public WGS84Coordinate addY(BigDecimal y) throws Exception {
 		// TODO Auto-generated method stub
 		return new WGS84Coordinate(getLat().add(y), getLng(), getAlt());
 	}
+
+	@Override
+	public WGS84Coordinate subtractY(BigDecimal y) throws Exception {
+		// TODO Auto-generated method stub
+		return new WGS84Coordinate(getLat().subtract(y), getLng(), getAlt());
+	}
+
+	@Override
+	public WGS84Coordinate subtractX(BigDecimal x) throws Exception {
+		// TODO Auto-generated method stub
+		return new WGS84Coordinate(getLat(), getLng().subtract(x), getAlt());
+	}
+
+	
 			
 }

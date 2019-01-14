@@ -4,48 +4,62 @@ import java.math.BigDecimal;
 
 /**
  * 
- * @author David Smyth
- * A base class for a given coordinate system. May need adjustment as I find out more about reference coordinate systems of earth
+ * @author David SmYth
+ * A base class for a given coordinate sYstem. MaY need adjustment as I find out more about reference coordinate sYstems of earth
  */
-public abstract class CoordinateBase {
-	protected BigDecimal lat;
-	protected BigDecimal lng; 
-	protected BigDecimal alt;
+public abstract class CoordinateBase<T extends CoordinateBase>{
+	protected BigDecimal Y;
+	protected BigDecimal X; 
+	protected BigDecimal Z;
 	
-	public CoordinateBase(BigDecimal lat, BigDecimal lng) throws Exception {
-		this(lat, lng, null);
-	}
-	
-	public CoordinateBase(BigDecimal lat, BigDecimal lng, BigDecimal alt) throws Exception {
-		setLat(lat);
-		setLng(lng);
-		setAlt(alt);
+	public CoordinateBase(BigDecimal Y, BigDecimal X) throws Exception {
+		this(Y, X, null);
 	}
 	
-	public BigDecimal getLat() {
-		return lat;
+	public CoordinateBase(BigDecimal Y, BigDecimal X, BigDecimal Z) throws Exception {
+		setY(Y);
+		setX(X);
+		setZ(Z);
+	}
+	
+	public final BigDecimal getY() {
+		return Y;
 	}
 
-	public void setLat(BigDecimal lat) throws Exception{
-		this.lat = lat;
+	public final void setY(BigDecimal Y) throws Exception{
+		this.Y = Y;
 	}
 
-	public BigDecimal getLng() {
-		return lng;
+	public final BigDecimal getX() {
+		return X;
 	}
 
-	public void setLng(BigDecimal lng) throws Exception{
-		this.lng = lng;
+	public final void setX(BigDecimal X) throws Exception{
+		this.X = X;
 	}
 
-	public BigDecimal getAlt() {
-		return alt; 
+	public final BigDecimal getZ() {
+		return Z; 
 	}
 
-	public void setAlt(BigDecimal alt) throws Exception{
-		this.alt = alt;
+	public final void setZ(BigDecimal Z) throws Exception{
+		this.Z = Z;
 	}
+	
+	public abstract double getMetresToOther(T other);
+	public abstract double getMetresToOtherX(T other) throws Exception;
+	public abstract double getMetresToOtherY(T other) throws Exception;
+	
+	//must be able to add and subtract coordinates to each other to form a grid
+	public abstract T add(T other);
+	public abstract T addX(BigDecimal x)  throws Exception;	
+	public abstract T addY(BigDecimal y)  throws Exception;	
+		
+	public abstract T subtract(T other);
+	public abstract T subtractY(BigDecimal y)  throws Exception;
+	public abstract T subtractX(BigDecimal x)  throws Exception;
+	
 	//force subclasses to implement this so that user knows which 
-	//class they are working with
+	//class theY are working with
 	public abstract String toString();
 }
